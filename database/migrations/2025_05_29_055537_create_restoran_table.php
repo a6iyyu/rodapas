@@ -12,6 +12,7 @@ return new class extends Migration {
         Schema::create('restoran', function (Blueprint $table): void {
             $table->id('id_restoran');
             $table->string('nama')->unique();
+            $table->string('logo')->nullable();
             $table->string('alamat');
             $table->string('nomor_telepon');
             $table->string('akun_telegram');

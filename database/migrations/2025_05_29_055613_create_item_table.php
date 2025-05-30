@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('produk', function (Blueprint $table): void {
-            $table->id('id_produk');
+        Schema::create('item', function (Blueprint $table): void {
+            $table->id('id_item');
             $table->foreignId('id_restoran')->constrained('restoran', 'id_restoran');
             $table->string('nama')->unique();
+            $table->string('gambar');
             $table->enum('kategori', ['KUDAPAN', 'MAKANAN', 'MINUMAN']);
             $table->integer('harga');
             $table->timestamps();
@@ -21,6 +22,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('produk');
+        Schema::dropIfExists('item');
     }
 };

@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Auth;
 
 class Autentikasi extends Controller
 {
-    public function keluar(Request $request): RedirectResponse
+    public function login() {}
+
+    public function logout(Request $request): RedirectResponse
     {
         try {
             Auth::logout();
@@ -23,6 +25,4 @@ class Autentikasi extends Controller
             abort(500, 'Terjadi kesalahan pada server.');
         }
     }
-
-    public function masuk() {}
 }

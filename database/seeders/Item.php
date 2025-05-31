@@ -23,6 +23,7 @@ class Item extends Seeder
             if (File::exists($source)) File::copy($source, $target);
         }
 
+        // Insert items
         DB::table('item')->insert([
             [
                 'id_item'       => 1,

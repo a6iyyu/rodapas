@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             Restoran::class,
             Item::class,
+            KeteranganItem::class,
         ]);
     }
 }

@@ -8,7 +8,11 @@ export default [
     files: ["**/*.ts"],
     languageOptions: {
       parser: tsparser,
-      parserOptions: { project: "./tsconfig.json" },
+      parserOptions: { project: "./tsconfig.eslint.json" },
+      globals: {
+        document: true,
+        window: true,
+      },
     },
     plugins: { "@typescript-eslint": tseslint },
     rules: {

@@ -5,3 +5,5 @@
  */
 
 import "./bootstrap";
+import "./cart";
+import "./order-menu";

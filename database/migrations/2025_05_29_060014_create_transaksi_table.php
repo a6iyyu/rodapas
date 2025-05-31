@@ -10,9 +10,11 @@ return new class extends Migration {
         Schema::create('transaksi', function (Blueprint $table): void {
             $table->id('id_transaksi');
             $table->foreignId('id_restoran')->constrained('restoran',column:  'id_restoran');
+            $table->string('kode_transaksi')->unique();
+            $table->string('nama_pelanggan');
             $table->date('tanggal');
             $table->integer('total');
-            $table->enum('status', ['BATAL', 'SELESAI']);
+            $table->enum('status', ['MENUNGGU', 'DIPROSES', 'SELESAI', 'BATAL'])->default('MENUNGGU');
             $table->timestamps();
         });
     }

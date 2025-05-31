@@ -10,13 +10,14 @@ use Illuminate\View\Component;
 
 class Card extends Component
 {
-    public string $image, $name, $price;
+    public string $image, $name, $price, $target;
 
-    public function __construct(string $image, string $name, string $price)
+    public function __construct(string $image, string $name, string $price, string $target)
     {
         $this->image = $image;
         $this->name = $name;
         $this->price = $price;
+        $this->target = $target;
     }
 
     public function price(): string
@@ -26,6 +27,6 @@ class Card extends Component
 
     public function render(): View|Closure|string
     {
-        return view('shared.card');
+        return view('shared.ui.card');
     }
 }

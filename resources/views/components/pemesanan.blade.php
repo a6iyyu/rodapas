@@ -3,6 +3,10 @@
         @csrf
         @method("POST")
         <figure class="max-h-[90vh] overflow-y-auto w-full max-w-xl rounded-xl bg-white px-7 py-6 shadow-lg border border-[var(--stroke)]">
+            <fieldset>
+                <label for="id_item" class="sr-only">ID Item</label>
+                <input type="hidden" name="id_item" id="id_item" />
+            </fieldset>
             <span class="flex items-center justify-between">
                 <h4 id="name" class="cursor-default font-semibold text-sm lg:text-lg"></h4>
                 <i id="close" class="fa-solid fa-xmark cursor-pointer"></i>
@@ -16,17 +20,13 @@
                     </button>
                     <label for="jumlah" class="sr-only">Jumlah</label>
                     <h5 id="portion">1</h5>
-                    <input type="hidden" name="pesanan[0][jumlah]" id="jumlah" value="1" />
+                    <input type="hidden" name="jumlah" id="jumlah" value="1" />
                     <button type="button" id="plus" class="cursor-pointer px-3 py-2 text-sm font-medium border border-gray-200 transition-all duration-300 ease-in-out rounded-lg lg:hover:bg-gray-200/80">
                         <i class="fa-solid fa-plus"></i>
                     </button>
                 </fieldset>
             </div>
             <x-input icon="fa-solid fa-user" label="Nama Pelanggan" name="nama_pelanggan" type="text" placeholder="Masukkan Nama" :required="true" />
-            <fieldset>
-                <label for="id_item" class="sr-only">ID Item</label>
-                <input type="hidden" name="pesanan[0][id_item]" id="id_item" />
-            </fieldset>
             <fieldset id="description" class="cursor-default text-sm space-y-2"></fieldset>
             <button type="submit" class="mt-10 cursor-pointer w-full py-3 text-sm font-semibold text-white bg-blue-500 transition-all duration-300 ease-in-out rounded-lg lg:hover:bg-blue-600">
                 Tambah

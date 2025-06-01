@@ -50,42 +50,33 @@ class Beranda extends Controller
     {
         try {
             $request->validate([
-                'nama_pelanggan'                => 'required|string|max:50',
-                'pesanan'                       => 'required|array|min:1',
-                'pesanan.*.id_item'             => 'required|numeric|exists:item,id_item',
-                'pesanan.*.jumlah'              => 'required|numeric|min:1',
-                'pesanan.*.keterangan_pilihan'  => 'nullable|array',
+                'id_item'             => 'required|numeric|exists:item,id_item',
+                'jumlah'              => 'required|numeric|min:1',
+                'nama_pelanggan'      => 'required|string|max:50',
+                'keterangan_pilihan'  => 'nullable|array',
             ]);
             
             DB::beginTransaction();
 
-            $total = 0;
-            foreach ($request->pesanan as $data) {
-                $item = Item::findOrFail($data['id_item']);
-                $total += $item->harga * $data['jumlah'];
-            }
+            $item = Item::findOrFail($request->id_item);
+            $subtotal = $item->harga * $request->jumlah;
 
             $transaksi = Transaksi::create([
                 'id_restoran'       => 1,
                 'kode_transaksi'    => strtoupper(uniqid('TR-')),
                 'nama_pelanggan'    => $request->nama_pelanggan,
                 'tanggal'           => Carbon::today(),
-                'total'             => $total,
+                'total'             => $subtotal,
                 'status'            => 'MENUNGGU',
             ]);
 
-            foreach ($request->pesanan as $data) {
-                $item = Item::findOrFail($data['id_item']);
-                $subtotal = $item->harga * $data['jumlah'];
-
-                Antrean::create([
-                    'id_transaksi'          => $transaksi->id_transaksi,
-                    'id_item'               => $item->id_item,
-                    'jumlah'                => $data['jumlah'],
-                    'keterangan_pilihan'    => collect($data['keterangan_pilihan'] ?? [])->toJson(),
-                    'subtotal'              => $subtotal,
-                ]);
-            }
+            Antrean::create([
+                'id_transaksi'          => $transaksi->id_transaksi,
+                'id_item'               => $item->id_item,
+                'jumlah'                => $request->jumlah,
+                'keterangan_pilihan'    => collect($request->keterangan_pilihan ?? [])->toJson(),
+                'subtotal'              => $subtotal,
+            ]);
 
             DB::commit();
             return to_route('beranda')->with('success', 'Transaksi berhasil dibuat.');

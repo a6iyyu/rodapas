@@ -20,7 +20,7 @@ class Bayar extends Controller
             $transactions = Transaksi::with('antrean.item')->latest()->get();
             $qr = [];
             foreach ($transactions as $transaction) $qr[$transaction->id_transaksi] = $this->generate_qr_code($transaction->id_transaksi); 
-            return view('pages.antrean', compact('transactions', 'qr'));
+            return view('pages.bayar', compact('transactions', 'qr'));
         } catch (ModelNotFoundException $exception) {
             report($exception);
             abort(404, 'Data tidak ditemukan.');

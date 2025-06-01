@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
           field_wrapper.appendChild(label);
 
           const select = document.createElement("select");
-          select.name = `pesanan[0][keterangan_pilihan][${desc.nama_keterangan.replace(/\s+/g, "_").toLowerCase()}]`;
+          select.name = `keterangan_pilihan[${desc.nama_keterangan.replace(/\s+/g, "_").toLowerCase()}]`;
           select.className = "appearance-none w-full mt-4 border border-gray-300 rounded-md px-3 py-2 text-sm";
           if (desc.wajib) select.required = true;
 

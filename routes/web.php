@@ -16,6 +16,11 @@ Route::post('/', [Beranda:: class, 'create'])->name('pesan');
 /** Antrean */
 Route::get('/bayar', [Bayar::class, 'index'])->name('bayar');
 
+/** Keranjang */
+Route::get('/keranjang', fn() => view('components.keranjang'))->name('keranjang.tampilkan');
+Route::post('/keranjang/tambah', [Beranda::class, 'add'])->name('keranjang.tambah');
+Route::post('/keranjang/bayar', [Beranda::class, 'checkout'])->name('keranjang.bayar');
+
 /** Log Suara */
 Route::post('/log-suara', [LogSuara:: class, 'index'])->name('log-suara');
 

@@ -12,7 +12,7 @@
                 <i id="close" class="fa-solid fa-xmark cursor-pointer"></i>
             </span>
             <img id="image" loading="lazy" class="mt-5 aspect-16/9 object-cover w-full rounded-xl" />
-            <div class="mb-6 mt-4 flex items-center justify-between">
+            <div class="mt-4 flex items-center justify-between">
                 <h4 id="price" class="cursor-default font-semibold text-sm lg:text-lg"></h4>
                 <fieldset class="flex items-center gap-6">
                     <button type="button" id="minus" class="cursor-pointer px-3 py-2 text-sm font-medium border border-gray-200 transition-all duration-300 ease-in-out rounded-lg lg:hover:bg-gray-200/80">
@@ -26,7 +26,6 @@
                     </button>
                 </fieldset>
             </div>
-            <x-input icon="fa-solid fa-user" label="Nama Pelanggan" name="nama_pelanggan" type="text" placeholder="Masukkan Nama" :required="true" />
             <fieldset id="description" class="cursor-default text-sm space-y-2"></fieldset>
             <button type="submit" class="mt-10 cursor-pointer w-full py-3 text-sm font-semibold text-white bg-blue-500 transition-all duration-300 ease-in-out rounded-lg lg:hover:bg-blue-600">
                 Tambah

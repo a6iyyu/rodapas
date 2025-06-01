@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\Antrean;
 use App\Models\Item;
 use App\Models\KeteranganItem;
+use App\Models\Restoran;
 use App\Models\Transaksi;
 use Carbon\Carbon;
 use Exception;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class Beranda extends Controller
@@ -52,20 +54,20 @@ class Beranda extends Controller
             $request->validate([
                 'id_item'             => 'required|numeric|exists:item,id_item',
                 'jumlah'              => 'required|numeric|min:1',
-                'nama_pelanggan'      => 'required|string|max:50',
                 'keterangan_pilihan'  => 'nullable|array',
             ]);
-            
+
             DB::beginTransaction();
 
             $item = Item::findOrFail($request->id_item);
+            $restoran = Restoran::where('id_restoran', $item->id_restoran)->first();
             $subtotal = $item->harga * $request->jumlah;
 
             $transaksi = Transaksi::create([
-                'id_restoran'       => 1,
+                'id_restoran'       => $restoran->id_restoran,
                 'kode_transaksi'    => strtoupper(uniqid('TR-')),
-                'nama_pelanggan'    => $request->nama_pelanggan,
-                'tanggal'           => Carbon::today(),
+                'nama_pelanggan'    => 'N/A',
+                'tanggal'           => Carbon::now()->format('Y-m-d'),
                 'total'             => $subtotal,
                 'status'            => 'MENUNGGU',
             ]);
@@ -84,6 +86,70 @@ class Beranda extends Controller
             DB::rollback();
             report($exception);
             return back()->withErrors('Terjadi kesalahan pada server.');
+        }
+    }
+
+    public function add(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'id_item' => 'required|numeric|exists:item,id_item',
+            'jumlah' => 'required|numeric|min:1',
+            'keterangan_pilihan' => 'nullable|array',
+        ]);
+
+        $item = Item::findOrFail($request->id_item);
+        $cart = Session::get('cart', []);
+        $cart[] = [
+            'id_item'            => $item->id_item,
+            'nama'               => $item->nama,
+            'harga'              => $item->harga,
+            'jumlah'             => $request->jumlah,
+            'keterangan_pilihan' => $request->keterangan_pilihan ?? [],
+            'subtotal'           => $item->harga * $request->jumlah,
+        ];
+
+        Session::put('cart', $cart);
+        return back()->with('success', 'Item berhasil ditambahkan ke keranjang.');
+    }
+
+    public function checkout(Request $request): RedirectResponse
+    {
+        $request->validate(['nama_pelanggan' => 'required|string|max:50']);
+        $cart = session()->get('cart', []);
+        if (empty($cart)) return back()->withErrors('Keranjang kosong.');
+
+        DB::beginTransaction();
+        try {
+            $itemPertama = Item::findOrFail($cart[0]['id_item']);
+            $restoran = Restoran::findOrFail($itemPertama->id_restoran);
+
+            $total = collect($cart)->sum('subtotal');
+            $transaksi = Transaksi::create([
+                'id_restoran' => $restoran->id_restoran,
+                'kode_transaksi' => strtoupper(uniqid('TR-')),
+                'nama_pelanggan' => $request->nama_pelanggan,
+                'tanggal' => now()->format('Y-m-d'),
+                'total' => $total,
+                'status' => 'MENUNGGU',
+            ]);
+
+            foreach ($cart as $item) {
+                Antrean::create([
+                    'id_transaksi' => $transaksi->id_transaksi,
+                    'id_item' => $item['id_item'],
+                    'jumlah' => $item['jumlah'],
+                    'keterangan_pilihan' => collect($item['keterangan_pilihan'])->toJson(),
+                    'subtotal' => $item['subtotal'],
+                ]);
+            }
+
+            Session::forget('cart');
+            DB::commit();
+            return redirect()->route('beranda')->with('success', 'Transaksi berhasil dibuat.');
+        } catch (Exception $e) {
+            DB::rollback();
+            report($e);
+            return back()->withErrors('Gagal membuat transaksi.');
         }
     }
 }

@@ -50,50 +50,9 @@ class Beranda extends Controller
 
     public function create(Request $request): RedirectResponse
     {
-        try {
-            $request->validate([
-                'id_item'             => 'required|numeric|exists:item,id_item',
-                'jumlah'              => 'required|numeric|min:1',
-                'keterangan_pilihan'  => 'nullable|array',
-            ]);
-
-            DB::beginTransaction();
-
-            $item = Item::findOrFail($request->id_item);
-            $restoran = Restoran::where('id_restoran', $item->id_restoran)->first();
-            $subtotal = $item->harga * $request->jumlah;
-
-            $transaksi = Transaksi::create([
-                'id_restoran'       => $restoran->id_restoran,
-                'kode_transaksi'    => strtoupper(uniqid('TR-')),
-                'nama_pelanggan'    => 'N/A',
-                'tanggal'           => Carbon::now()->format('Y-m-d'),
-                'total'             => $subtotal,
-                'status'            => 'MENUNGGU',
-            ]);
-
-            Antrean::create([
-                'id_transaksi'          => $transaksi->id_transaksi,
-                'id_item'               => $item->id_item,
-                'jumlah'                => $request->jumlah,
-                'keterangan_pilihan'    => collect($request->keterangan_pilihan ?? [])->toJson(),
-                'subtotal'              => $subtotal,
-            ]);
-
-            DB::commit();
-            return to_route('beranda')->with('success', 'Transaksi berhasil dibuat.');
-        } catch (Exception $exception) {
-            DB::rollback();
-            report($exception);
-            return back()->withErrors('Terjadi kesalahan pada server.');
-        }
-    }
-
-    public function add(Request $request): RedirectResponse
-    {
         $request->validate([
-            'id_item' => 'required|numeric|exists:item,id_item',
-            'jumlah' => 'required|numeric|min:1',
+            'id_item'            => 'required|numeric|exists:item,id_item',
+            'jumlah'             => 'required|numeric|min:1',
             'keterangan_pilihan' => 'nullable|array',
         ]);
 
@@ -125,21 +84,21 @@ class Beranda extends Controller
 
             $total = collect($cart)->sum('subtotal');
             $transaksi = Transaksi::create([
-                'id_restoran' => $restoran->id_restoran,
-                'kode_transaksi' => strtoupper(uniqid('TR-')),
-                'nama_pelanggan' => $request->nama_pelanggan,
-                'tanggal' => now()->format('Y-m-d'),
-                'total' => $total,
-                'status' => 'MENUNGGU',
+                'id_restoran'       => $restoran->id_restoran,
+                'kode_transaksi'    => strtoupper(uniqid('TR-')),
+                'nama_pelanggan'    => $request->nama_pelanggan,
+                'tanggal'           => Carbon::now()->format('Y-m-d'),
+                'total'             => $total,
+                'status'            => 'MENUNGGU',
             ]);
 
             foreach ($cart as $item) {
                 Antrean::create([
-                    'id_transaksi' => $transaksi->id_transaksi,
-                    'id_item' => $item['id_item'],
-                    'jumlah' => $item['jumlah'],
+                    'id_transaksi'       => $transaksi->id_transaksi,
+                    'id_item'            => $item['id_item'],
+                    'jumlah'             => $item['jumlah'],
                     'keterangan_pilihan' => collect($item['keterangan_pilihan'])->toJson(),
-                    'subtotal' => $item['subtotal'],
+                    'subtotal'           => $item['subtotal'],
                 ]);
             }
 

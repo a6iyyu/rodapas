@@ -2,27 +2,28 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Bayar;
 use App\Http\Controllers\Beranda;
 use App\Http\Controllers\LogSuara;
+use App\Http\Controllers\Pembayaran;
 use App\Http\Controllers\Profil;
 use Illuminate\Support\Facades\Route;
 
 /** Beranda */
 Route::get('/', [Beranda::class, 'index'])->name('beranda');
 Route::get('/keterangan', [Beranda::class, 'show'])->name('keterangan');
-Route::post('/', [Beranda:: class, 'create'])->name('pesan');
-
-/** Antrean */
-Route::get('/bayar', [Bayar::class, 'index'])->name('bayar');
 
 /** Keranjang */
-Route::get('/keranjang', fn() => view('components.keranjang'))->name('keranjang.tampilkan');
-Route::post('/keranjang/tambah', [Beranda::class, 'add'])->name('keranjang.tambah');
+Route::get('/keranjang', fn() => view('components.beranda.keranjang'))->name('keranjang');
+Route::post('/keranjang/tambah', [Beranda::class, 'create'])->name('keranjang.tambah');
 Route::post('/keranjang/bayar', [Beranda::class, 'checkout'])->name('keranjang.bayar');
 
+/** Pembayaran */
+Route::get('/pembayaran', [Pembayaran::class, 'index'])->name('pembayaran');
+Route::post('/pembayaran/{id}/batal', [Pembayaran::class, 'cancel'])->name('pembayaran.batal');
+Route::post('/pembayaran/{id}/konfirmasi', [Pembayaran::class, 'confirm'])->name('pembayaran.konfirmasi');
+
 /** Log Suara */
-Route::post('/log-suara', [LogSuara:: class, 'index'])->name('log-suara');
+Route::post('/log-suara', [LogSuara::class, 'index'])->name('log-suara');
 
 /** Profil Restoran */
 Route::get('/profil', [Profil::class, 'index'])->name('profil');

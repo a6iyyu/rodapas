@@ -23,12 +23,12 @@
                 <i class="fa-solid fa-microphone px-3.5 py-3 bg-[#dc2626] rounded-full"></i>
                 <h5 class="font-semibold">Pesan Suara</h5>
             </a>
-            <a href="javascript:void(0)" id="open-cart" class="flex items-center gap-3 pl-3 pr-6 py-2 rounded-full bg-green-500 text-white text-sm shadow-lg transition-all duration-300 ease-in-out lg:hover:bg-green-600">
+            <button type="button" id="open-cart" class="cursor-pointer flex items-center gap-3 pl-3 pr-6 py-2 rounded-full bg-green-500 text-white text-sm shadow-lg transition-all duration-300 ease-in-out lg:hover:bg-green-600">
                 <i class="fa-solid fa-cart-shopping p-3 bg-green-600 rounded-full"></i>
                 <h5 class="font-semibold">Keranjang</h5>
-            </a>
+            </button>
         </section>
     </main>
-    @include("components.keranjang")
-    @include("components.pemesanan")
+    @include("components.beranda.keranjang")
+    @include("components.beranda.pemesanan")
 @endsection

@@ -11,8 +11,9 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('restoran')->delete();
+        DB::table('keterangan_item')->delete();
         DB::table('item')->delete();
+        DB::table('restoran')->delete();
 
         $this->call([
             Restoran::class,

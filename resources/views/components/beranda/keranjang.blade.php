@@ -33,7 +33,7 @@
                     type="text"
                     :required="true"
                 />
-                <button type="submit" class="mt-6 w-full py-3 text-sm font-semibold text-white bg-blue-500 transition-all duration-300 ease-in-out rounded-lg lg:hover:bg-blue-600">
+                <button type="submit" class="cursor-pointer mt-6 w-full py-3 text-sm font-semibold text-white bg-blue-500 transition-all duration-300 ease-in-out rounded-lg lg:hover:bg-blue-600">
                     Bayar
                 </button>
             @endif

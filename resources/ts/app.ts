@@ -6,4 +6,6 @@
 
 import "./bootstrap";
 import "./cart";
+import "./form";
+import "./modal";
 import "./order-menu";

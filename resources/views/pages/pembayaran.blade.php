@@ -1,11 +1,7 @@
 @extends("layouts.main")
 
-@section("judul")
-    Pembayaran
-@endsection
-
+@section("judul", "Pembayaran")
 @section("deskripsi")
-@endsection
 
 @section("konten")
     @include("shared.navigation.header")

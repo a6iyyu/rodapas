@@ -1,10 +1,7 @@
-@extends('layouts.main')
+@extends("layouts.main")
 
-@section('judul')
-@endsection
+@section("judul", "Profil")
+@section("deskripsi")
 
-@section('deskripsi')
-@endsection
-
-@section('konten')
+@section("konten")
 @endsection

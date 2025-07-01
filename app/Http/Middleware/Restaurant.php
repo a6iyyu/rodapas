@@ -17,7 +17,10 @@ class Restaurant
      */
     public function handle(Request $request, Closure $next): RedirectResponse|Response
     {
-        if (!Auth::check()) return to_route('masuk')->withErrors(['errors' => 'Anda tidak memiliki izin untuk mengakses halaman ini.']);
+        if (!Auth::check()) {
+            return $request->is('/') ? to_route('masuk') : to_route('masuk')->withErrors(['errors' => 'Anda tidak memiliki izin untuk mengakses halaman ini.']);
+        }
+
         return $next($request);
     }
 }

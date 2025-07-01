@@ -61,7 +61,7 @@
                     :required="true"
                 />
             </div>
-            <a href="{{ route("daftar") }}" class="text-sm text-[#5955b2] transition-all duration-300 lg:hover:underline lg:hover:text-[#4f4bad]">
+            <a href="{{ route("masuk") }}" class="text-sm text-[#5955b2] transition-all duration-300 lg:hover:underline lg:hover:text-[#4f4bad]">
                 Sudah Punya Akun?
             </a>
             <button type="submit" class="mt-7 text-sm cursor-pointer w-full py-4 rounded-lg font-semibold transform transition-all duration-500 bg-[#5955b2] text-white lg:focus:outline-none lg:hover:scale-[1.02] lg:hover:bg-[#4f4bad]">

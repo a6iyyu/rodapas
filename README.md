@@ -5,7 +5,7 @@
 
 ## Deskripsi
 
-**RODAPAS** (Robot Pembayaran Suara) adalah sebuah sistem inovatif yang menggabungkan teknologi pengenalan suara, antarmuka web, dan integrasi dengan bot Telegram untuk mencatat dan mengelola transaksi penjualan secara otomatis. Sistem ini dirancang untuk digunakan oleh usaha kecil menengah (UMKM) seperti kedai atau restoran, di mana pelanggan dapat memesan hanya dengan mengucapkan nama menu yang tersedia.
+**RODAPAS** (Robot Asisten Digital Pasar) adalah sebuah sistem inovatif yang menggabungkan teknologi pengenalan suara, antarmuka web, dan integrasi dengan bot Telegram untuk mencatat dan mengelola transaksi penjualan secara otomatis. Sistem ini dirancang untuk digunakan oleh usaha kecil menengah (UMKM) seperti kedai atau restoran, di mana pelanggan dapat memesan hanya dengan mengucapkan nama menu yang tersedia.
 
 Sistem terdiri dari dua komponen utama: mikrokontroler dengan mikrofon untuk menangkap perintah suara pelanggan, serta website berbasis Laravel yang mencatat dan merekap transaksi harian. Setiap malam, rekap transaksi akan dikirim secara otomatis ke pemilik usaha melalui bot Telegram.
 

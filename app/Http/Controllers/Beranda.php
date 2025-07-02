@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\Status;
 use App\Models\Antrean;
 use App\Models\Item;
 use App\Models\KeteranganItem;
@@ -12,10 +13,12 @@ use App\Models\Transaksi;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
@@ -76,13 +79,13 @@ class Beranda extends Controller
     public function checkout(Request $request): RedirectResponse
     {
         $request->validate(['nama_pelanggan' => 'required|string|max:50']);
-        $cart = session()->get('cart', []);
+        $cart = Session::get('cart', []);
         if (empty($cart)) return back()->withErrors('Keranjang kosong.');
 
         DB::beginTransaction();
         try {
-            $itemPertama = Item::findOrFail($cart[0]['id_item']);
-            $restoran = Restoran::findOrFail($itemPertama->id_restoran);
+            $item_pertama = Item::findOrFail($cart[0]['id_item']);
+            $restoran = Restoran::findOrFail($item_pertama->id_restoran);
 
             $total = collect($cart)->sum('subtotal');
             $transaksi = Transaksi::create([
@@ -91,7 +94,7 @@ class Beranda extends Controller
                 'nama_pelanggan'    => $request->nama_pelanggan,
                 'tanggal'           => Carbon::now()->format('Y-m-d'),
                 'total'             => $total,
-                'status'            => 'MENUNGGU',
+                'status'            => Status::MENUNGGU,
             ]);
 
             foreach ($cart as $item) {
@@ -106,11 +109,23 @@ class Beranda extends Controller
 
             Session::forget('cart');
             DB::commit();
-            return redirect()->route('beranda')->with('success', 'Transaksi berhasil dibuat.');
+            return to_route('beranda')->with('success', 'Transaksi berhasil dibuat.');
         } catch (Exception $e) {
             DB::rollback();
             report($e);
             return back()->withErrors('Gagal membuat transaksi.');
         }
+    }
+
+    public function remove(int $id): JsonResponse
+    {
+        $cart = session('cart', []);
+        if (!isset($cart[$id])) return Response::json(['success' => false, 'message' => 'Item tidak ditemukan.'], 404);
+
+        unset($cart[$id]);
+        $cart = array_values($cart);
+        Session::put('cart', $cart);
+
+        return Response::json(['success' => true, 'message' => 'Item berhasil dihapus.']);
     }
 }

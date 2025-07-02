@@ -17,8 +17,11 @@
                 <ul class="mt-4 space-y-2">
                     @foreach($cart as $index => $item)
                         <li class="border-b py-2 flex justify-between text-sm">
-                            <h5>{{ $item['nama'] }} (x{{ $item['jumlah'] }})</h5>
-                            <h5>Rp {{ number_format($item['subtotal'], 0, ',', '.') }}</h5>
+                            <h5 class="cursor-default">{{ $item['nama'] }} (x{{ $item['jumlah'] }})</h5>
+                            <span class="flex items-center gap-2">
+                                <h5 class="cursor-default">Rp {{ number_format($item['subtotal'], 0, ',', '.') }}</h5>
+                                <i data-id="{{ $index }}" class="fa-solid fa-xmark remove-item cursor-pointer rounded-full px-1.75 py-1.5 text-[10px] bg-slate-800 text-white"></i>
+                            </span>
                         </li>
                     @endforeach
                 </ul>

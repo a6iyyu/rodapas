@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\Status;
 use App\Models\Transaksi;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -17,7 +18,7 @@ class Pembayaran extends Controller
     public function index(): View
     {
         try {
-            $transactions = Transaksi::with('antrean.item')->where('status', '!=', 'BATAL')->latest()->get();
+            $transactions = Transaksi::with('antrean.item')->where('status', '!=', Status::BATAL)->latest()->get();
             $qr = [];
             foreach ($transactions as $transaction) $qr[$transaction->id_transaksi] = $this->generate_qr_code($transaction->id_transaksi);
             return view('pages.pembayaran', compact('transactions', 'qr'));
@@ -34,7 +35,7 @@ class Pembayaran extends Controller
     {
         try {
             $transaction = Transaksi::findOrFail($id);
-            $transaction->update(['status' => 'BATAL']);
+            $transaction->update(['status' => Status::BATAL]);
             return back()->with('success', 'Transaksi berhasil dibatalkan.');
         } catch (Exception $exception) {
             report($exception);
@@ -46,7 +47,7 @@ class Pembayaran extends Controller
     {
         try {
             $transaction = Transaksi::findOrFail($id);
-            $transaction->update(['status' => 'DIPROSES']);
+            $transaction->update(['status' => Status::DIPROSES]);
             return back()->with('success', 'Transaksi berhasil dikonfirmasi.');
         } catch (Exception $exception) {
             report($exception);

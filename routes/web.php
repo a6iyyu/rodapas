@@ -30,6 +30,7 @@ Route::middleware('restaurant')->group(function () {
     Route::get('/keranjang', fn() => view('components.beranda.keranjang'))->name('keranjang');
     Route::post('/keranjang/tambah', [Beranda::class, 'create'])->name('keranjang.tambah');
     Route::post('/keranjang/bayar', [Beranda::class, 'checkout'])->name('keranjang.bayar');
+    Route::post('/keranjang/hapus/{id}', [Beranda::class, 'remove'])->name('keranjang.hapus');
 
     /** Pembayaran */
     Route::get('/pembayaran', [Pembayaran::class, 'index'])->name('pembayaran');

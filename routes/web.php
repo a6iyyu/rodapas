@@ -30,7 +30,7 @@ Route::middleware('restaurant')->group(function () {
     Route::get('/keranjang', fn() => view('components.beranda.keranjang'))->name('keranjang');
     Route::post('/keranjang/tambah', [Beranda::class, 'create'])->name('keranjang.tambah');
     Route::post('/keranjang/bayar', [Beranda::class, 'checkout'])->name('keranjang.bayar');
-    Route::post('/keranjang/hapus/{id}', [Beranda::class, 'remove'])->name('keranjang.hapus');
+    Route::delete('/keranjang/hapus/{id}', [Beranda::class, 'remove'])->name('keranjang.hapus');
 
     /** Pembayaran */
     Route::get('/pembayaran', [Pembayaran::class, 'index'])->name('pembayaran');
@@ -46,14 +46,14 @@ Route::middleware('restaurant')->group(function () {
         Route::get('/tambah', [Menu::class, 'create'])->name('menu.tambah');
         Route::get('/{id}/edit', [Menu::class, 'edit'])->name('menu.edit');
         Route::post('/tambah', [Menu::class, 'store'])->name('menu.simpan');
-        Route::post('/{id}/edit', [Menu::class, 'update'])->name('menu.perbarui');
-        Route::post('/{id}/hapus', [Menu::class, 'destroy'])->name('menu.hapus');
+        Route::put('/{id}/edit', [Menu::class, 'update'])->name('menu.perbarui');
+        Route::delete('/{id}/hapus', [Menu::class, 'destroy'])->name('menu.hapus');
     });
     
     /** Profil Restoran */
     Route::get('/profil', [Profil::class, 'index'])->name('profil');
     Route::get('/profil/edit', [Profil::class, 'edit'])->name('profil.edit');
-    Route::post('/profil/edit', [Profil::class, 'update'])->name('profil.perbarui');
+    Route::put('/profil/edit', [Profil::class, 'update'])->name('profil.perbarui');
 
     /** Autentikasi */
     Route::get('/keluar', [Autentikasi::class, 'logout'])->name('logout');

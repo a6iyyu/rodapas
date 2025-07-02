@@ -28,7 +28,7 @@
         <div class="mt-5 overflow-x-auto">
             <ul class="flex flex-col items-center justify-center gap-4 min-w-[325px]">
                 <i class="fa-regular fa-bell-slash text-xl md:text-4xl"></i>
-                <h5 class="text-sm md:text-base">Belum Ada Pesanan Terbaru</h5>
+                <h5 class="text-xs md:text-sm">Belum Ada Pesanan Terbaru</h5>
             </ul>
         </div>
     @endif

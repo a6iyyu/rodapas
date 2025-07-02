@@ -5,7 +5,7 @@
 
 @section("konten")
     <main class="bg-white rounded-xl my-20 p-10 w-4/5 border border-slate-300/50 md:w-3/5 lg:w-[45%]">
-        <h4 class="mt-4 cursor-default text-lg text-center font-semibold tracking-wide">
+        <h4 class="cursor-default text-lg text-center font-semibold tracking-wide">
             Lupa Kata Sandi
         </h4>
         <h5 class="mt-1.5 mb-7 cursor-default text-sm text-slate-600 text-center tracking-wide">

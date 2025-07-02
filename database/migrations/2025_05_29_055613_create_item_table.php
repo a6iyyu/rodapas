@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->enum('kategori', ['KUDAPAN', 'MAKANAN', 'MINUMAN']);
             $table->integer('harga');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

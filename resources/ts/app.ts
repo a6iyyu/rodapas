@@ -11,3 +11,4 @@ import "./edit-profile";
 import "./form";
 import "./modal";
 import "./order-menu";
+import "./search-menu";

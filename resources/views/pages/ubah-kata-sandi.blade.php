@@ -4,7 +4,7 @@
 
 @section("konten")
     <main class="bg-white rounded-xl my-20 p-10 w-4/5 border border-slate-300/50 md:w-3/5 lg:w-[45%] mx-auto">
-        <h4 class="mt-4 cursor-default text-lg text-center font-semibold tracking-wide">
+        <h4 class="cursor-default text-lg text-center font-semibold tracking-wide">
             Ubah Kata Sandi
         </h4>
         @if (session("status"))

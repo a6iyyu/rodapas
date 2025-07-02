@@ -3,7 +3,7 @@
         Informasi Restoran
     </h4>
     <hr class="mt-2.5 h-1 w-full text-slate-800" />
-    <img src="{{ $restoran->logo ?? asset('img/polinema.jpg') }}" alt="Logo Restoran" class="mb-8 mt-6 mx-auto h-24 w-24 object-cover" />
+    <img src="{{ $restoran->logo ?? null }}" alt="Logo Restoran" class="mb-8 mt-6 mx-auto h-24 w-24 object-cover" />
     <div class="mt-4 grid grid-cols-1 gap-8 md:grid-cols-2">
         <span class="flex flex-col gap-2">
             <h4 class="font-semibold text-sm">Nama Restoran</h4>

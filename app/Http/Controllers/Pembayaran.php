@@ -36,7 +36,7 @@ class Pembayaran extends Controller
         try {
             $transaction = Transaksi::findOrFail($id);
             $transaction->update(['status' => Status::BATAL]);
-            return back()->with('success', 'Transaksi berhasil dibatalkan.');
+            return to_route('beranda')->with('success', 'Transaksi berhasil dibatalkan.');
         } catch (Exception $exception) {
             report($exception);
             return back()->withErrors('Terjadi kesalahan saat membatalkan transaksi.');

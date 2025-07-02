@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use App\Enums\Status;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Transaksi extends Model
 {
+    use HasFactory;
+
     protected $table = 'transaksi';
     protected $primaryKey = 'id_transaksi';
     protected $casts = ['status' => Status::class];

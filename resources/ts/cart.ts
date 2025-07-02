@@ -33,7 +33,7 @@ const render_cart = async (): Promise<void> => {
         if (index == null) return;
 
         try {
-          await axios.post(`/keranjang/hapus/${index}`);
+          await axios.delete(`/keranjang/hapus/${index}`);
           await render_cart();
         } catch (error) {
           console.error("Gagal menghapus item:", error);
